@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, Switch, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, FlatList, Switch, StyleSheet, ScrollView, AsyncStorage } from 'react-native';
 import BluetoothSerial from 'react-native-bluetooth-serial-next';
 
 import BluetoothList from '../components/BluetoothList';
@@ -8,7 +8,7 @@ import Toggle from '../components/Toggle';
 
 const Bluetooth = ({ list, boolEnable, enableBluetooth, disableBluetooth}) => {
 
-    const toggleSwitch = (value) => {
+    const toggleSwitch = async (value) => {
         if (value) {
             return enableBluetooth();
         }
@@ -21,11 +21,14 @@ const Bluetooth = ({ list, boolEnable, enableBluetooth, disableBluetooth}) => {
             onPress = {async () => {
                 try {
                     console.log(item.id);
-                    await BluetoothSerial.connect(item.id);
+                    const isConnected = await BluetoothSerial.isConnected();
+                    if (isConnected) {
+                        alert('Dispoitivo ya conectado');
+                    }
+                    await BluetoothSerial.connect(item.id);                  
                 } catch {
                     alert('No se pudo conectar con el dispositivo bluetooth');
-                }
-                
+                }                
             }}    
         />
     );
@@ -34,16 +37,18 @@ const Bluetooth = ({ list, boolEnable, enableBluetooth, disableBluetooth}) => {
         <>
             <View style = {styles.container}>
 
-                <Text style = {styles.bluetooth}>Bluetooth Manager</Text>              
+                <Text style = {styles.bluetooth}>Bluetooth Manager</Text>          
 
                 <Toggle
                     isEnabled = {boolEnable}
                     toggleSwitch = {toggleSwitch}
-                />
-
-                <Subtitle/>     
+                />                                 
                     
             </View>
+
+            <Subtitle title = {'Dispositivos emparejados'} onPress = {() => {
+
+            }}/>
 
             {boolEnable ? 
             <FlatList
@@ -52,6 +57,7 @@ const Bluetooth = ({ list, boolEnable, enableBluetooth, disableBluetooth}) => {
                 keyExtractor={item => item.id}
                 contentContainerStyle={{
                     flexGrow: 1,
+                    paddingBottom: 30
                 }}
             /> 
             : 

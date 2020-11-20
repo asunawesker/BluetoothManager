@@ -9,6 +9,7 @@ const App = () => {
 	const [boolEnable, setBoolEnable] = useState(false); 
 
   	useEffect(() => {
+		
 		initBluetooth();  
 		
 		return () => {
@@ -19,7 +20,8 @@ const App = () => {
 
 			remove();
 		}
-	}, []); 
+
+	}, []); 	
 	
 	const initBluetooth = async () => {
 		await BluetoothSerial.requestEnable();
@@ -27,8 +29,6 @@ const App = () => {
 
 		setBoolEnable(true);
 		setList(list);
-
-		console.log(list);
 	}
 
 	const disableBluetooth = async () => {

@@ -1,12 +1,12 @@
 import * as React from 'react';
-import { View, Text, FlatList, Switch, StyleSheet } from 'react-native';
+import { View, Text, FlatList, Switch, StyleSheet, TouchableOpacity } from 'react-native';
 
-const Subtitle = () => {
+const Subtitle = ({ title}) => {
     return(
-        <View style = {styles.container}>
-            <Text style = {styles.title}>Lista de dispositivos</Text>
+        <TouchableOpacity style = {styles.container}>
+            <Text style = {styles.title}>{title}</Text>
             <View style = {styles.line}/>
-        </View>
+        </TouchableOpacity>
     );
 }
 
