@@ -1,10 +1,10 @@
 import * as React from 'react';
-import { View, Text, FlatList, Switch, StyleSheet } from 'react-native';
+import { View, Text, FlatList, Switch, StyleSheet, TouchableOpacity } from 'react-native';
 
-const Item = ({ title }) => (
-    <View style = {styles.container}>
+const Item = ({ title, onPress }) => (
+    <TouchableOpacity style = {styles.container} onPress = {onPress}>
       <Text style = {styles.name}>{title}</Text>
-    </View>
+    </TouchableOpacity>
 );
 
 const styles = StyleSheet.create({
